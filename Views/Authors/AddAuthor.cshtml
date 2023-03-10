@@ -1,0 +1,87 @@
+﻿@model FacultyJournal.Models.Author
+
+
+@{
+    ViewData["Title"] = "Create";
+}
+<style>
+.formDisplay{
+    display:none;
+}
+  
+</style>
+@*<h1>Create</h1>
+*@
+<h4>Add Another Author</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" name="AddAuthors">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="FirstName" class="control-label"></label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OtherName" class="control-label"></label>
+                <input asp-for="OtherName" class="form-control" />
+                <span asp-validation-for="OtherName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName" class="control-label"></label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Affiliation" class="control-label"></label>
+                <input asp-for="Affiliation" class="form-control" />
+                <span asp-validation-for="Affiliation" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ORCIDNumber" class="control-label"></label>
+                <input asp-for="ORCIDNumber" class="form-control" />
+                <span asp-validation-for="ORCIDNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsCorrespondingAuthor" /> @Html.DisplayNameFor(model => model.IsCorrespondingAuthor)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="CountryId" class="control-label">Author' Country</label>
+                <select asp-for="CountryId" class ="form-control" asp-items="ViewBag.CountryId"></select>
+            </div>
+            <div class="formDisplay">
+                <label asp-for="ArticleId" class="control-label"></label>
+                <input asp-for="ArticleId" class="form-control" value="@ViewBag.Id" />
+
+                @*<select asp-for="ArticleId" class ="form-control" ></select>*@
+            </div>
+                  
+    <div style="margin-top:15px"></div>
+     <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="MultipleAuthors" />@Html.DisplayNameFor(model => model.MultipleAuthors)
+                </label>
+            </div>
+          
+
+      <div class="form-group" style="margin-top:20px">
+                <input  type="submit" asp-action="Create" value="Save" class="btn btn-primary" />
+
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

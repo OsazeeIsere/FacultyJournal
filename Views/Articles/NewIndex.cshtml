@@ -1,0 +1,99 @@
+﻿@using System.Security.Claims
+@model IEnumerable<FacultyJournal.Models.Article>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>List of Articles</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Submit Article</a>
+</p>
+
+<div class="table-responsive">
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Abstract)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Keywords)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NumberOfPages)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateSubmited)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SubmittedBy)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Abstract)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Keywords)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumberOfPages)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateSubmited)
+            </td>
+                @{
+                    var submitted = item.SubmittedBy;
+                    var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                    //var currentUserId3 = User.FindFirstValue(submitted);
+                    //UserManager<> userManager=
+                    //var currentUser = userManager.GetUserId(submitted).ToString();
+                    var user1 = User.Identity.Name;
+                    
+                    if (currentUserId == item.SubmittedBy)
+                    {
+                       <td>
+                           @*@user1*@
+                           You
+
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                        Your Co-Author
+                        </td>
+                    }
+                }
+                
+              @*<td>
+
+            </td>*@
+            @*<td>
+                @Html.DisplayFor(modelItem => item.SubmittedBy)
+            </td>*@
+            <td>
+                <a asp-controller="Authors" class="btn btn-success" asp-action="Create" asp-route-id="@item.Id">Continue</a>|
+               @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |*@
+                <a asp-action="Details" class="btn btn-primary" asp-route-id="@item.Id">Details</a> |
+                <a asp-controller="ArticleReviewers" class="btn btn-primary" asp-action="Create" asp-route-id="@item.Id">Assign Reviewer(s)</a>|
+
+                <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+</div>

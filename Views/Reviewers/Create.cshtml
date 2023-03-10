@@ -1,0 +1,119 @@
+﻿@model FacultyJournal.Models.Reviewer
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+
+
+
+
+<h3>Apply as Reviewer</h3>
+<hr />
+<h4><span class="ez-toc-section" id="Apply_as_Reviewer" ez-toc-data-id="#Apply_as_Reviewer"></span>Apply as Reviewer<span class="ez-toc-section-end"></span></h4>
+<p style="text-align: justify;"><a href="https://localhost:7211/">EDSU Faculty of Science Journal</a> invites you 
+         to submit an application for Reviewer. The core of the academic publishing process is peer review and the reviewers
+         who participate in it. Being a reviewer for the journal is a productive, enjoyable, and distinguished position that adds to the academic community through the methods and directives provided by authorities in the pertinent subjects.
+
+
+    <p>
+<span style="font-size: 14pt;"><strong>Eligibility Details:</strong></span>
+</p>
+<ul>
+    <li style="text-align: justify;">
+        2-year research or working experience in the related areas with 
+        <a href="https://en.wikipedia.org/wiki/Doctor_of_Philosophy">Ph.D.</a>
+        "/Master Degree."
+    </li>
+<li style="text-align: justify;">Experience in the field is preferred.</li>
+<li style="text-align: justify;">The applicant should have at least two publications.</li>
+</ul>
+
+
+<p style="text-align: justify;"><span style="font-size: 14pt;"><strong>Benefits:</strong></span></p>
+<ul>
+<li style="text-align: justify;">You can add your role as a <a href="https://localhost:7211/Reviewers/Create/">Reviewer</a> for the EDSU faculty of Science Journal to your CV.</li>
+<li style="text-align: justify;">This work contributes to and offers a better way to establish your identification as a well-known authority in your field, which may improve conference speaking invitations or demand for invited research in your area of expertise.</li>
+<li style="text-align: justify;">You will be one of the participants in shaping and deciding the urgent paths as necessary with shifting societal necessities.</li>
+<li style="text-align: justify;">Your suggestions and subject contributions may be used to organize special issues on themes that are important to you.</li>
+<li style="text-align: justify;">You will learn about the most recent studies before anybody else, which will put you in a position of authority within your field of study.</li>
+<li style="text-align: justify;">The reviewers could enjoy discounts on Article Processing Charges if they publish articles in EDSU faculty of Science Journals.</li>
+</ul>
+
+<p><strong>For any query, Please Contact Us : Email Id: isere.osazee@edouniversity.edu.ng</strong></p>
+
+<div class="forminator-row">
+    <div id="select-1" class="forminator-col forminator-col-12 ">
+        <div class="forminator-field">
+            <select id="forminator-form-24729__field--select-1_63f6369c5678b" class="forminator-select--field forminator-select2 select2-hidden-accessible forminator-screen-reader-only" data-required="1" name="select-1" data-default-value="" data-placeholder="Salutation" data-search="true" aria-describedby="forminator-form-24729__field--select-1_63f6369c5678b-description" data-select2-id="select2-data-forminator-form-24729__field--select-1_63f6369c5678b" tabindex="-1" aria-hidden="true">
+                <option value="" data-select2-id="select2-data-2-t6bq">Salutation</option>
+                <option value="Dr." data-calculation="0" data-select2-id="select2-data-6-cq6w">Dr.</option>
+                <option value="Mr." data-calculation="0" data-select2-id="select2-data-7-q2xn">Mr.</option>
+                <option value="Mrs." data-calculation="0" data-select2-id="select2-data-8-vjcy">Mrs.</option>
+                <option value="Ms." data-calculation="0" data-select2-id="select2-data-9-14xv">Ms.</option>
+                </select><span class="select2 select2-container forminator-select forminator-select-dropdown-container--below select2-container--focus" dir="ltr" data-select2-id="select2-data-1-rrgx" style="width: 90px;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-describedby="forminator-form-24729__field--select-1_63f6369c5678b-description" aria-labelledby="select2-forminator-form-24729__field--select-1_63f6369c5678b-container" aria-controls="select2-forminator-form-24729__field--select-1_63f6369c5678b-container"><span class="select2-selection__rendered" id="select2-forminator-form-24729__field--select-1_63f6369c5678b-container" role="textbox" aria-readonly="true" title="Salutation"><span class="select2-selection__placeholder">Salutation</span></span><span class="select2-selection__arrow" role="presentation"><span class="forminator-icon-chevron-down" aria-hidden="true"></span></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+         </div>
+  </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-8">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+          
+
+            <div class="form-group">
+                <label asp-for="FirstName" class="control-label"></label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OtherName" class="control-label"></label>
+                <input asp-for="OtherName" class="form-control" />
+                <span asp-validation-for="OtherName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName" class="control-label"></label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Affiliation" class="control-label"></label>
+                <input asp-for="Affiliation" class="form-control" />
+                <span asp-validation-for="Affiliation" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AreaOfSpecializationId" class="control-label"></label>
+                <select asp-for="AreaOfSpecializationId" class ="form-control" asp-items="ViewBag.AreaOfSpecializationId"></select>
+            </div>
+           <p><h6>I Agree *</h6></p>
+            <label for="forminator-field-checkbox-1-1-63f9142c860db" class="forminator-checkbox" 
+            title="RSIS International 's terms and conditions.">
+            <input type="checkbox" name="checkbox-1[]" 
+            value="RSIS International 's terms and conditions."
+            id="forminator-field-checkbox-1-1-63f9142c860db" 
+            data-calculation="0" aria-describedby="forminator-field-checkbox-1-63f9142c860db-description">
+            <span class="forminator-checkbox-box" aria-hidden="true"></span>
+            <span class="forminator-checkbox-label">EDSU Faculty Journal's terms and conditions.</span></label>
+
+            <div class="form-group">
+                <input type="submit" value="Submit" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

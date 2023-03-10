@@ -1,0 +1,132 @@
+﻿@using System.Security.Claims
+@model IEnumerable<FacultyJournal.Models.Article>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>List of Articles</h1>
+<div id="PlaceHolderHere"></div>
+<p>
+    <a asp-action="Create" class="btn btn-primary">Submit Article</a>
+</p>
+<div class="table-responsive">
+<table class="table table-dark table-striped">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Abstract)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Keywords)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NumberOfPages)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateSubmited)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SubmittedBy)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+               
+                 <button class="btn btn-primary"  type="button" data-toggle="ajax-modal" data-target="#showAbstract" data-url="@Url.Action($"Abstract/{item.Id}")">
+                View 
+                </button>         
+                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Keywords)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumberOfPages)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateSubmited)
+            </td>
+                @{
+                    var submitted = item.SubmittedBy;
+                    var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                    //var currentUserId3 = User.FindFirstValue(submitted);
+                    //UserManager<> userManager=
+                    //var currentUser = userManager.GetUserId(submitted).ToString();
+                    var user1 = User.Identity.Name;
+                    
+                    if (currentUserId == item.SubmittedBy)
+                    {
+                       <td>
+                           @*@user1*@
+                           You
+
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                        Your Co-Author
+                        </td>
+                    }
+                }
+                
+                
+              @*<td>
+
+            </td>*@
+            @*<td>
+                @Html.DisplayFor(modelItem => item.SubmittedBy)
+            </td>*@
+            <td>
+                        @{
+                            if(User.IsInRole("Chief Editor")){
+                                 <a asp-controller="ArticleReviewers" class="btn btn-primary" asp-action="Create" asp-route-id="@item.Id"> +Reviewer(s)</a>
+                                <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.Id">Delete</a>
+
+                            }
+                        }
+                        @{
+                            if(User.IsInRole("User")){
+                                
+                                <a asp-action="Details" class="btn btn-secondary" asp-route-id="@item.Id">Details</a> 
+                                <a asp-controller="Comments" class="btn btn-primary" asp-action="ViewComment" asp-route-id="@item.Id"> View Comment(s)</a>
+                                <a asp-controller="Authors" class="btn btn-success" asp-action="Create" asp-route-id="@item.Id">Continue</a>
+
+                            }
+                        }
+
+                         @{
+                            if(User.IsInRole("Reviewer")){
+                                
+                                <a asp-action="Details" class="btn btn-info" asp-route-id="@item.Id">Details</a> 
+                                
+                            }
+                        }
+
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+</div>
+<script>
+    const targetDiv = document.getElementById("third");
+    const btn = document.getElementById("toggle");
+    btn.onclick = function () {
+        if (targetDiv.style.display !== "none") {
+            targetDiv.style.display = "none";
+        } else {
+            targetDiv.style.display = "block";
+        }
+    };
+</script>

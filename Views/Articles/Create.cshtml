@@ -1,0 +1,84 @@
+﻿@model FacultyJournal.Models.Article
+
+@using Microsoft.AspNetCore.Identity;
+
+@{
+    ViewData["Title"] = "Create";
+}
+<style>
+.formDisplay{
+    display:none;
+}
+  
+</style>
+<h1>Submit Article</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="form-group">
+                <label asp-for="Abstract" class="control-label"></label>
+                <input asp-for="Abstract" class="form-control" />
+                <span asp-validation-for="Abstract" class="text-danger"></span>
+            </div>
+             <br />
+
+            <div class="form-group">
+               <label asp-for="ManuscriptTypeId" class="control-label">Manuscript Type</label>
+               <select asp-for="ManuscriptTypeId" class="form-control" asp-items="@(new SelectList(ViewBag.message,"Id","Type"))">
+               <option value="">Select Manuscript Type</option>
+               </select>
+              <span asp-validation-for="ManuscriptTypeId" class="text-danger"></span>
+            </div>
+             <br />
+
+            <div class="form-group">
+                <label asp-for="Keywords" class="control-label"></label>
+                <input asp-for="Keywords" class="form-control" />
+                <span asp-validation-for="Keywords" class="text-danger"></span>
+            </div>
+             <br />
+
+            <div class="form-group">
+                <label asp-for="NumberOfPages" class="control-label"></label>
+                <input asp-for="NumberOfPages" class="form-control" />
+                <span asp-validation-for="NumberOfPages" class="text-danger"></span>
+            </div>
+           <br />
+
+            <div class="formDisplay">
+                <label asp-for="DateSubmited" class="control-label"></label>
+                <input asp-for="DateSubmited" class="form-control" value=@DateTime.Now />
+                <span asp-validation-for="DateSubmited" class="text-danger"></span>
+            </div>
+             <br />
+
+            <div class="formDisplay">
+                <label asp-for="SubmittedBy" class="control-label"></label>
+                <input asp-for="SubmittedBy" class="form-control" value="@ViewBag.userId"/>
+                <span asp-validation-for="SubmittedBy" class="text-danger"></span>
+            </div>
+           <br />
+
+            <div class="form-group">
+                <input type="submit" value="Next" class="btn btn-primary" />
+               <a asp-action="Index" class="btn btn-dark">Back</a>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
