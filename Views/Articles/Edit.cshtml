@@ -15,37 +15,48 @@
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
+                <input asp-for="Title" class="form-control" disabled />
             </div>
             <div class="form-group">
                 <label asp-for="Abstract" class="control-label"></label>
-                <input asp-for="Abstract" class="form-control" />
-                <span asp-validation-for="Abstract" class="text-danger"></span>
+                <input asp-for="Abstract" class="form-control" disabled/>
             </div>
             <div class="form-group">
                 <label asp-for="Keywords" class="control-label"></label>
-                <input asp-for="Keywords" class="form-control" />
-                <span asp-validation-for="Keywords" class="text-danger"></span>
+                <input asp-for="Keywords" class="form-control" disabled />
             </div>
             <div class="form-group">
                 <label asp-for="NumberOfPages" class="control-label"></label>
-                <input asp-for="NumberOfPages" class="form-control" />
-                <span asp-validation-for="NumberOfPages" class="text-danger"></span>
+                <input asp-for="NumberOfPages" class="form-control" disabled />
             </div>
             <div class="form-group">
                 <label asp-for="DateSubmited" class="control-label"></label>
-                <input asp-for="DateSubmited" class="form-control" />
-                <span asp-validation-for="DateSubmited" class="text-danger"></span>
+                <input asp-for="DateSubmited" class="form-control" disabled/>
             </div>
             <div class="form-group">
                 <label asp-for="SubmittedBy" class="control-label"></label>
-                <input asp-for="SubmittedBy" class="form-control" />
-                <span asp-validation-for="SubmittedBy" class="text-danger"></span>
+                <input asp-for="SubmittedBy" class="form-control" disabled />
             </div>
-            <div class="form-group">
+           @* <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
+            </div>*@
+            @{
+               if(User.IsInRole("Reviewer")){
+               <a class="btn btn-dark" asp-action="Index" asp-route-id="@Model.Id">Back to List</a>
+
+            }
+    }
+          
+        @{
+         if(User.IsInRole("Chief Editor")&& Model.Status == ArticleStatus.Pending)
+         {
+				<input hidden name="id" value="@Model.Id">
+			 <a asp-controller="ArticleReviewers" class="btn btn-primary" asp-action="Create" asp-route-id="@Model.Id"> +Reviewer(s)</a>
+
+                <input hidden name="status" value="@ArticleStatus.Accepted_For_Review">
+				<button type="submit" class="btn btn-xs btn-success">Accept For Review</button>
+         }
+    }
         </form>
     </div>
 </div>

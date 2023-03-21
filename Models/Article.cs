@@ -6,17 +6,12 @@ namespace FacultyJournal.Models
     {
         [Key]
         public int Id { get; set; }
-        [Required]
-        public string Title { get; set; }
-        [Required]
-        public string Abstract { get; set; }
-        [Required]
-        public string Keywords { get; set; }
-        [Required]
-        public int NumberOfPages { get; set; }
+        public string? Title { get; set; }
+        public string? Abstract { get; set; }
+        public string? Keywords { get; set; }
+        public int? NumberOfPages { get; set; }
         public DateTime DateSubmited { get; set; } = DateTime.Now;
-        [Required]
-        public string SubmittedBy { get; set; }
+        public string? SubmittedBy { get; set; }
         public ArticleStatus Status { get; set; } = ArticleStatus.Pending;
         [Required]
         [ForeignKey("ManuscriptTypes")]

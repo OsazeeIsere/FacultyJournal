@@ -9,6 +9,7 @@
 <div>
     <h4>Article</h4>
     <hr />
+
     <dl class="row">
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Title)
@@ -68,10 +69,16 @@
 </div>
 <div>
     @{
-               if(User.IsInRole("Reviewer")){
-                               <a class="btn btn-dark" asp-action="Index" asp-route-id="@Model.Id">Back to List</a>
+               if(User.IsInRole("Reviewer"))
+        {
+            <a class="btn btn-dark" asp-action="Index" asp-route-id="@Model.Id">Back to List</a>
+            if (@Model.Status ==ArticleStatus.Accepted_For_Review)
+            {
+              <a asp-action="DownloadArticle" asp-controller="Articles" class="btn btn-info"  asp-route-id="@Model.Id">Download Article</a> 
+ 
+            }
 
-             }
+       }
     }
     @{
          if(User.IsInRole("User"))
@@ -81,5 +88,41 @@
              <a class="btn btn-dark" asp-action="Index" asp-route-id="@Model.Id">Back to List</a>
          }
     }
+      
+        @{
+         if(User.IsInRole("Chief Editor") && Model.Status == ArticleStatus.Pending)
+         {
+            <form style="display:inline;" method="post">
+				<input hidden name="id" value="@Model.Id">
+
+          		<input hidden  name="ManuscriptTypeId" value="@Model.ManuscriptTypeId">
+                <input hidden name="ManuscriptTypes" value="@Model.ManuscriptTypes">
+
+                <input hidden name="status" value="@ArticleStatus.Accepted_For_Review">
+				<button type="submit" class="btn btn-xs btn-success">Accept For Review</button>
+        	 <a asp-controller="ArticleReviewers" class="btn btn-primary" asp-action="Create" asp-route-id="@Model.Id"> +Reviewer(s)</a>
+             <a asp-action="DownloadArticle" asp-controller="Articles" class="btn btn-info" asp-route-id="@Model.Id">Download Article</a> 
+
+			</form>
+         }
+    }
     
+	@*@if (isAuthorized.Succeeded)
+	{
+		@if (Model.Status != ApplicationStatus.Approved)
+		{
+			<form style="display:inline;" method="post">
+				<input hidden name="id" value="@Model.id">
+				<input hidden name="status" value="@ApplicationStatus.Approved">
+				<button type="submit" class="btn btn-xs btn-success">Approve</button>
+			</form>
+		}
+
+		@if (Model.Status == ArticleStatus.Pending)
+		{
+			
+		}
+	}*@
+
+
 </div>

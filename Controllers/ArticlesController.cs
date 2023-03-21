@@ -23,7 +23,18 @@ namespace FacultyJournal.Controllers
             _userManager = userManager;
             _hostingEnvironment = hostingEnvironment;
         }
-
+        public async Task<IActionResult> DownloadArticle(string? id)
+        {
+            var article = await _context.Articles.FindAsync(id);
+            if(article != null)
+            {
+                string FileName = article.UploadedFile;
+                string path = Path.Combine(this._hostingEnvironment.WebRootPath, "Articles/") + FileName;
+                byte[] bytes = System.IO.File.ReadAllBytes(path);
+                return File(bytes, "application/octet-stream", FileName);
+            }
+            return NotFound();
+        }
         // Creating a modal form to display abstact
         public async Task<IActionResult> Abstract(int? id)
         {
@@ -44,12 +55,14 @@ namespace FacultyJournal.Controllers
         // GET: Articles/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+
             if (id == null || _context.Articles == null)
             {
                 return NotFound();
             }
 
             var article = await _context.Articles
+                .Include(a => a.ManuscriptTypes)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (article == null)
             {
@@ -58,6 +71,37 @@ namespace FacultyJournal.Controllers
 
             return View(article);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Details(int id, Article article)
+        {
+            var articles = await _context.Articles.FindAsync(id);
+
+            
+            if (articles != null)
+            {
+                try
+                {
+                     articles.Status = article.Status;
+                     await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+
+                    //Log the error (uncomment ex variable name and write a log.)
+                    ModelState.AddModelError("", "Unable to save changes. " +
+                        "Try again, and if the problem persists, " +
+                        "see your system administrator.");
+                }
+            }
+            
+            return View(article);
+
+        }
+
 
         // GET: Articles/Create
         public async Task<IActionResult> Create()
@@ -131,9 +175,7 @@ namespace FacultyJournal.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
-            {
-                try
+              try
                 {
                     _context.Update(article);
                     await _context.SaveChangesAsync();
@@ -150,7 +192,7 @@ namespace FacultyJournal.Controllers
                     }
                 }
                 return RedirectToAction(nameof(Index));
-            }
+            
             return View(article);
         }
 
@@ -195,5 +237,89 @@ namespace FacultyJournal.Controllers
         {
             return _context.Articles.Any(e => e.Id == id);
         }
+
+        // GET: Articles/Edit/5
+        public async Task<IActionResult> UploadArticles(int? id)
+        {
+
+            if (id == null || _context.Articles == null)
+            {
+                return NotFound();
+            }
+
+            var article = await _context.Articles.FindAsync(id);
+            if (article == null)
+            {
+                return NotFound();
+            }
+            return View(article);
+        }
+
+        // POST: Articles/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UploadArticles(int id, IFormFile articleUpload, Article article)
+        {
+            var articleToUpdate = await _context.Articles.FindAsync(article.Id);
+
+            if (id != article.Id)
+            {
+                return NotFound();
+            }
+
+            try
+            {
+                if (articleUpload != null && articleUpload.Length > 0)
+                {
+                    var uploadDir = @"Articles";
+                    var fileName = Path.GetFileNameWithoutExtension(articleUpload.FileName);
+                    var extension = Path.GetExtension(articleUpload.FileName);
+                    var webRootPath = _hostingEnvironment.WebRootPath;
+                    //fileName = DateTime.UtcNow.ToString("yymmssfff") + fileName + extension;
+
+                    fileName = fileName + extension;
+                    var path = Path.Combine(webRootPath, uploadDir, fileName);
+                    using (FileStream fs = new FileStream(path, FileMode.Append, FileAccess.Write))
+                    {
+                        articleUpload.CopyTo(fs);
+                        articleToUpdate.UploadedFile = fileName;
+
+                    }
+
+                }
+                await TryUpdateModelAsync<Article>(articleToUpdate);               //    c => c.Ssce1, c => c.Ssce2, c => c.BirthCertificate, c => c.DirectEntryUpload, c => c.LGAUpload))
+
+                try
+                {
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+
+                    //Log the error (uncomment ex variable name and write a log.)
+                    ModelState.AddModelError("", "Unable to save changes. " +
+                        "Try again, and if the problem persists, " +
+                        "see your system administrator.");
+                }
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ArticleExists(article.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+        return View(article);
+        }
+
     }
 }
