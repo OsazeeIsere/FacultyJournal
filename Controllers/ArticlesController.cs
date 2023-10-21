@@ -23,7 +23,7 @@ namespace FacultyJournal.Controllers
             _userManager = userManager;
             _hostingEnvironment = hostingEnvironment;
         }
-        public async Task<IActionResult> DownloadArticle(string? id)
+        public async Task<IActionResult> DownloadArticle(int? id)
         {
             var article = await _context.Articles.FindAsync(id);
             if(article != null)

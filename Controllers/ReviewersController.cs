@@ -151,7 +151,7 @@ namespace FacultyJournal.Controllers
             email.Subject = "Test email from C#";
             // Sender's email address and password
             string fromEmail = "oz1.concepts@gmail.com";
-            string password = "prayer2JAH";
+            string password = "";
             // string result = "successful";
             // Receiver's email address
 
